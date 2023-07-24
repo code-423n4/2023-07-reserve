@@ -13,7 +13,6 @@ protocol/contracts/plugins/assets/erc20/RewardableERC20.sol
 protocol/contracts/plugins/assets/AppreciatingFiatCollateral.sol
 protocol/contracts/plugins/assets/stargate/StargatePoolFiatCollateral.sol
 protocol/contracts/plugins/assets/morpho-aave/MorphoTokenisedDeposit.sol
-protocol/contracts/plugins/assets/stargate/mocks/StargateLPStakingMock.sol
 protocol/contracts/plugins/assets/stargate/StargateRewardableWrapper.sol
 protocol/contracts/plugins/assets/cbeth/CBETHCollateral.sol
 protocol/contracts/plugins/assets/compoundv2/CTokenSelfReferentialCollateral.sol
@@ -40,7 +39,6 @@ protocol/contracts/plugins/assets/dsr/SDaiCollateral.sol
 protocol/contracts/plugins/assets/stargate/StargatePoolETHCollateral.sol
 protocol/contracts/plugins/assets/SelfReferentialCollateral.sol
 protocol/contracts/plugins/assets/compoundv2/CTokenWrapper.sol
-protocol/contracts/plugins/assets/stargate/mocks/StargatePoolMock.sol
 protocol/contracts/plugins/assets/morpho-aave/MorphoFiatCollateral.sol
 protocol/contracts/plugins/assets/aave/ATokenFiatCollateral.sol
 protocol/contracts/plugins/assets/OracleLib.sol

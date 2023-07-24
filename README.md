@@ -59,7 +59,7 @@ Details on collateral plugins can be found [here](https://github.com/reserve-pro
 
 ## Out of scope
 
-Any `/vendor` folders (including those found under `contracts/plugins/assets/**`).
+Any `/test`, `/mock`, `/mocks`, `/vendor` folders (including those found under `contracts/plugins/assets/**`).
 
 *Everything Else*
 
