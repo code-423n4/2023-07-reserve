@@ -41,7 +41,7 @@ RTokens can generate revenue, and this revenue is the incentive for RSR holders 
 
 [Introduction Video](https://www.youtube.com/watch?v=JOy0wCVhnwM)
 
-The protocol folder in this repo is linked to the primary Reserve Protocol public repo on branch 3.0.0 at commit hash 9ee60f142f9f5c1fe8bc50eef915cf33124a534f.
+The protocol folder in this repo is linked to the primary Reserve Protocol public repo on branch 3.0.0 at commit hash 9ee60f142f9f5c1fe8bc50eef915cf33124a534f: https://github.com/reserve-protocol/protocol/tree/3.0.0 
 
 # Scope
 
