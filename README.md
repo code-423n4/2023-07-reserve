@@ -1,17 +1,18 @@
 # Reserve Invitational audit details
-- Total Prize Pool: $80,100 USDC 
+
+- Total Prize Pool: $80,100 USDC
   - HM awards: $45,000 USDC
-  - Analysis awards: $2,500 USDC 
-  - QA awards: $1,250 USDC 
+  - Analysis awards: $2,500 USDC
+  - QA awards: $1,250 USDC
   - Gas awards: $1,250 USDC
-  - Judge awards: $12,000 USDC 
-  - Scout awards: $500 USDC 
+  - Judge awards: $12,000 USDC
+  - Scout awards: $500 USDC
   - Mitigation Review: $17,600 USDC (*Opportunity goes to top 3 certified wardens based on placement in this audit.*)
 - Join [C4 Discord](https://discord.gg/code4rena) to register
 - Submit findings [using the C4 form](https://code4rena.com/contests/2023-07-reserve-invitational/submit)
 - [Read our guidelines for more details](https://docs.code4rena.com/roles/wardens)
-- Starts July 25, 2023 20:00 UTC 
-- Ends August 4, 2023 20:00 UTC 
+- Starts July 25, 2023 20:00 UTC
+- Ends August 4, 2023 20:00 UTC
 
 ## Automated Findings / Publicly Known Issues
 
@@ -21,12 +22,12 @@ Automated findings output for the audit can be found [here](add link to report) 
 
 Anything mentioned in the previous audits is considered known issues:
 
-[Trail of Bits - August 11th, 2022](https://github.com/code-423n4/2023-01-reserve/blob/main/audits/Trail%20of%20Bits%20-%20Aug%2011%202022.pdf)
-[Ackee - October 7th, 2022](https://github.com/code-423n4/2023-01-reserve/blob/main/audits/Ackee%20-%20Oct%2007%202022.pdf)
-[Solidified - October 16th, 2022](https://github.com/code-423n4/2023-01-reserve/blob/main/audits/Solidified%20-%20Oct%2016%202022.pdf)
-[Halborn Security - November 15th, 2022](https://github.com/code-423n4/2023-01-reserve/blob/main/audits/Halborn%20Security%20-%20Nov%2015%202022.pdf)
-[Code4rena Competition January, 2023](https://github.com/code-423n4/2023-01-reserve-findings)
-[Code4rena Competition January, 2023 - Mitigation](https://github.com/code-423n4/2023-02-reserve-mitigation-contest-findings)
+- [Trail of Bits - August 11th, 2022](https://github.com/code-423n4/2023-01-reserve/blob/main/audits/Trail%20of%20Bits%20-%20Aug%2011%202022.pdf)
+- [Ackee - October 7th, 2022](https://github.com/code-423n4/2023-01-reserve/blob/main/audits/Ackee%20-%20Oct%2007%202022.pdf)
+- [Solidified - October 16th, 2022](https://github.com/code-423n4/2023-01-reserve/blob/main/audits/Solidified%20-%20Oct%2016%202022.pdf)
+- [Halborn Security - November 15th, 2022](https://github.com/code-423n4/2023-01-reserve/blob/main/audits/Halborn%20Security%20-%20Nov%2015%202022.pdf)
+- [Code4rena Competition January, 2023](https://github.com/code-423n4/2023-01-reserve-findings)
+- [Code4rena Competition January, 2023 - Mitigation](https://github.com/code-423n4/2023-02-reserve-mitigation-contest-findings)
 
 # Overview
 
@@ -43,6 +44,8 @@ RTokens can generate revenue, and this revenue is the incentive for RSR holders 
 The protocol folder in this repo is linked to the primary Reserve Protocol public repo on branch 3.0.0 at commit hash 9ee60f142f9f5c1fe8bc50eef915cf33124a534f.
 
 # Scope
+
+*See scope.txt*
 
 The base directory is assumed to be protocol relative to the root of this repo.
 
@@ -73,25 +76,34 @@ We recommend going through the following documents in order to understand the pr
   - Especially the section on Fixed.sol which describes our uint192 based fixed-point decimal value.
 
 Some areas of focus for this competition:
+
 - Can the price or status of any plugins be manipulated or exploited?
 - Can any token wrappers (CTokenWrapper, CusdcV3Wrapper, PoolTokens, CurveGaugeWrapper, RewardableERC20*, RewardableERC4626Vault) be manipulated or exploited?
 
 # Initialing the Repo
+
 Clone the repo with the following command:
 
+```
 git clone --recurse-submodules https://github.com/code-423n4/2023-01-reserve.git
+```
+
 If you've already cloned the repo but without the --recurse-submodules, you can run the following in the repo's directory:
 
+```
 git submodule update --init
+```
 
 ## Tests
+
 Detailed steps to run tests against the protocol are available here in the docs/dev-env.md document:
 
-- Compile: yarn compile
+- Compile: `yarn compile`
 - There are many available test sets. A few of the most useful are:
   - Run collateral plugin tests: `yarn test:plugins:integration`
 
-## Scoping Details 
+## Scoping Details
+
 ```
 - If you have a public code repo, please share it here: https://github.com/reserve-protocol/protocol/tree/3.0.0 
 - How many contracts are in scope?: 40
