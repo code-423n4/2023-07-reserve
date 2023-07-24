@@ -12,43 +12,6 @@ Some of the checklists in this doc are for **C4 (🐺)** and some of them are fo
 
 ---
 
-# Audit setup
-
-# Repo setup
-
-## ⭐️ Sponsor: Add code to this repo
-
-- [ ] Create a PR to this repo with the below changes:
-- [ ] Provide a self-contained repository with working commands that will build (at least) all in-scope contracts, and commands that will run tests producing gas reports for the relevant contracts.
-- [ ] Make sure your code is thoroughly commented using the [NatSpec format](https://docs.soliditylang.org/en/v0.5.10/natspec-format.html#natspec-format).
-- [ ] Please have final versions of contracts and documentation added/updated in this repo **no less than 48 business hours prior to audit start time.**
-- [ ] Be prepared for a 🚨code freeze🚨 for the duration of the audit — important because it establishes a level playing field. We want to ensure everyone's looking at the same code, no matter when they look during the audit. (Note: this includes your own repo, since a PR can leak alpha to our wardens!)
-
-
----
-
-## ⭐️ Sponsor: Edit this README
-
-Under "SPONSORS ADD INFO HERE" heading below, include the following:
-
-- [ ] Modify the bottom of this `README.md` file to describe how your code is supposed to work with links to any relevent documentation and any other criteria/details that the C4 Wardens should keep in mind when reviewing. ([Here's a well-constructed example.](https://github.com/code-423n4/2022-08-foundation#readme))
-  - [ ] When linking, please **provide all links as full absolute links** versus relative links
-  - [ ] All information should be provided in markdown format (HTML does not render on Code4rena.com)
-- [ ] Under the "Scope" heading, provide the name of each contract and:
-  - [ ] source lines of code (excluding blank lines and comments) in each
-  - [ ] external contracts called in each
-  - [ ] libraries used in each
-- [ ] Describe any novel or unique curve logic or mathematical models implemented in the contracts
-- [ ] Does the token conform to the ERC-20 standard? In what specific ways does it differ?
-- [ ] Describe anything else that adds any special logic that makes your approach unique
-- [ ] Identify any areas of specific concern in reviewing the code
-- [ ] Review the Gas award pool amount. This can be adjusted up or down, based on your preference - just flag it for Code4rena staff so we can update the pool totals across all comms channels. 
-- [ ] Optional / nice to have: pre-record a high-level overview of your protocol (not just specific smart contract functions). This saves wardens a lot of time wading through documentation.
-- [ ] See also: [this checklist in Notion](https://code4rena.notion.site/Key-info-for-Code4rena-sponsors-f60764c4c4574bbf8e7a6dbd72cc49b4#0cafa01e6201462e9f78677a39e09746)
-- [ ] Delete this checklist and all text above the line below when you're ready.
-
----
-
 # Reserve Invitational audit details
 - Total Prize Pool: $80,100 USDC 
   - HM awards: $45,000 USDC
@@ -70,31 +33,77 @@ Automated findings output for the audit can be found [here](add link to report) 
 
 *Note for C4 wardens: Anything included in the automated findings output is considered a publicly known issue and is ineligible for awards.*
 
-[ ⭐️ SPONSORS ADD INFO HERE ]
+Anything mentioned in the previous audits is considered known issues:
+
+[Trail of Bits - August 11th, 2022](https://github.com/code-423n4/2023-01-reserve/blob/main/audits/Trail%20of%20Bits%20-%20Aug%2011%202022.pdf)
+[Ackee - October 7th, 2022](https://github.com/code-423n4/2023-01-reserve/blob/main/audits/Ackee%20-%20Oct%2007%202022.pdf)
+[Solidified - October 16th, 2022](https://github.com/code-423n4/2023-01-reserve/blob/main/audits/Solidified%20-%20Oct%2016%202022.pdf)
+[Halborn Security - November 15th, 2022](https://github.com/code-423n4/2023-01-reserve/blob/main/audits/Halborn%20Security%20-%20Nov%2015%202022.pdf)
+[Code4rena Competition January, 2023](https://github.com/code-423n4/2023-01-reserve-findings)
+[Code4rena Competition January, 2023 - Mitigation](https://github.com/code-423n4/2023-02-reserve-mitigation-contest-findings)
 
 # Overview
 
-*Please provide some context about the code being audited, and identify any areas of specific concern in reviewing the code. (This is a good place to link to your docs, if you have them.)*
+The Reserve Protocol allows anyone to create stablecoins backed by baskets of ERC20 tokens on Ethereum. Stable asset backed currencies launched on the Reserve protocol are called “RTokens”.
+
+Once an RToken configuration has been deployed, RTokens can be minted by depositing the entire basket of collateral backing tokens, and redeemed for the entire basket as well. Thus, an RToken will tend to trade at the market value of the entire basket that backs it, as any lower or higher price could be arbitraged.
+
+RTokens can be overcollateralized, which means that if any of their collateral tokens default, there's a pool of value available to make up for the loss. RToken overcollateralization is provided by Reserve Rights (RSR) holders, who may choose to stake their RSR on any RToken. Staked RSR can be seized in the case of a collateral default, in a process that is entirely mechanistic based on on-chain price-feeds, and does not depend on any governance votes or human choices.
+
+RTokens can generate revenue, and this revenue is the incentive for RSR holders to stake. Revenue can come from yield from lending collateral tokens on-chain or revenue shares with collateral token issuers. Governance can direct any portion of revenue to RSR stakers, to incentivize RSR holders to stake and provide overcollateralization. If an RToken generates no revenue, or if none of it is directed to RSR stakers, it probably won't have any RSR staked on it, and thus won't be protected by overcollateralization.
+
+[Introduction Video](https://www.youtube.com/watch?v=JOy0wCVhnwM)
+
+The protocol folder in this repo is linked to the primary Reserve Protocol public repo on branch 3.0.0 at commit hash 9ee60f142f9f5c1fe8bc50eef915cf33124a534f.
 
 # Scope
 
-*List all files in scope in the table below (along with hyperlinks) -- and feel free to add notes here to emphasize areas of focus.*
+The base directory is assumed to be protocol relative to the root of this repo.
 
-*For line of code counts, we recommend using [cloc](https://github.com/AlDanial/cloc).* 
+The following directories and implementations are considered in-scope for this audit.
 
-| Contract | SLOC | Purpose | Libraries used |  
-| ----------- | ----------- | ----------- | ----------- |
-| [contracts/folder/sample.sol](contracts/folder/sample.sol) | 123 | This contract does XYZ | [`@openzeppelin/*`](https://openzeppelin.com/contracts/) |
+| Contract | Purpose |  
+| ----------- | ----------- |
+| contracts/plugins/assets/** | These are the collateral plugins for the protocol |
+
+Details on collateral plugins can be found [here](https://github.com/reserve-protocol/protocol/blob/master/docs/collateral.md).
 
 ## Out of scope
 
-*List any files/contracts that are out of scope for this audit.*
+Any `/vendor` folders (including those found under `contracts/plugins/assets/**`).
+
+*Everything Else*
 
 # Additional Context
 
-*Describe any novel or unique curve logic or mathematical models implemented in the contracts*
+Here's a [video walkthrough](https://www.youtube.com/watch?v=341MhkOWsJE) of the code which provides additional context around specific files, structure and logic.
 
-*Sponsor, please confirm/edit the information below.*
+We recommend going through the following documents in order to understand the protocol better.
+
+- docs/system-design.md
+- docs/collateral.md
+- docs/Token Flow.png
+- docs/solidity-style.md
+  - Especially the section on Fixed.sol which describes our uint192 based fixed-point decimal value.
+
+Some areas of focus for this competition:
+- Can the price or status of any plugins be manipulated or exploited?
+- Can any token wrappers (CTokenWrapper, CusdcV3Wrapper, PoolTokens, CurveGaugeWrapper, RewardableERC20*, RewardableERC4626Vault) be manipulated or exploited?
+
+# Initialing the Repo
+Clone the repo with the following command:
+
+git clone --recurse-submodules https://github.com/code-423n4/2023-01-reserve.git
+If you've already cloned the repo but without the --recurse-submodules, you can run the following in the repo's directory:
+
+git submodule update --init
+
+## Tests
+Detailed steps to run tests against the protocol are available here in the docs/dev-env.md document:
+
+- Compile: yarn compile
+- There are many available test sets. A few of the most useful are:
+  - Run collateral plugin tests: `yarn test:plugins:integration`
 
 ## Scoping Details 
 ```
@@ -116,9 +125,3 @@ Automated findings output for the audit can be found [here](add link to report) 
 - Does it use a side-chain?: No
 - Describe any specific areas you would like addressed:  convex wrapper and plugins. compound v3 wrapper and plugin. frax-eth plugin. lido plugin. rocket-eth plugin. ankr plugin. RewardableERC20Wrapper & CTokenWrapper. sDAI plugin. cbETH plugin. morpho plugin. crv plugins. stargate plugin.
 ```
-
-# Tests
-
-*Provide every step required to build the project from a fresh git clone, as well as steps to run the tests with a gas report.* 
-
-*Note: Many wardens run Slither as a first pass for testing.  Please document any known errors with no workaround.* 
