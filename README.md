@@ -85,7 +85,7 @@ Some areas of focus for this competition:
 Clone the repo with the following command:
 
 ```
-git clone --recurse-submodules https://github.com/code-423n4/2023-01-reserve.git
+git clone --recurse-submodules https://github.com/code-423n4/2023-07-reserve.git
 ```
 
 If you've already cloned the repo but without the --recurse-submodules, you can run the following in the repo's directory:
